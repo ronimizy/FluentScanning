@@ -7,39 +7,33 @@ namespace FluentScanning.QueryComponents
 {
     public abstract class EnclosingComponentBase : IScanningQueryComponent
     {
-        private bool _wrapped = false;
         private readonly IScanningQueryComponent _component;
+        private readonly IEnumerable<TypeInfo> _enumerable;
 
-        protected EnclosingComponentBase(IScanningQueryComponent component)
+        protected EnclosingComponentBase(IScanningQueryComponent component, IEnumerable<TypeInfo> enumerable)
         {
             _component = component;
+            _enumerable = enumerable;
         }
 
         public IEnumerator<TypeInfo> GetEnumerator()
         {
-            if (_wrapped)
-            {
-                return _component.GetEnumerator();
-            }
-
             var visitor = new QueryComponentVisitor();
             _component.Accept(visitor);
 
-            return visitor.BuildQuery(_component).GetEnumerator();
+            return visitor.BuildQuery(_enumerable).GetEnumerator();
         }
 
         IEnumerator IEnumerable.GetEnumerator()
             => GetEnumerator();
 
         public IScanningQueryComponent Wrap(Func<IScanningQueryComponent, IScanningQueryComponent> wrapper)
-        {
-            _wrapped = true;
-            return Wrap(wrapper.Invoke(_component));
-        }
+            => Wrap(wrapper.Invoke(_component), _enumerable);
 
         public IQueryComponentVisitor Accept(IQueryComponentVisitor visitor)
             => _component.Accept(visitor);
 
-        protected abstract IScanningQueryComponent Wrap(IScanningQueryComponent component);
+        protected abstract IScanningQueryComponent Wrap(
+            IScanningQueryComponent component, IEnumerable<TypeInfo> enumerable);
     }
 }

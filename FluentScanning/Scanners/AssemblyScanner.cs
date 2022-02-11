@@ -18,18 +18,20 @@ namespace FluentScanning
         }
 
         public IEnumerator<TypeInfo> GetEnumerator()
-            => _providers
-                .Select(p => p.Assembly)
-                .SelectMany(a => a.DefinedTypes)
-                .GetEnumerator();
+            => GetEnumerable().GetEnumerator();
 
         IEnumerator IEnumerable.GetEnumerator()
             => GetEnumerator();
 
         public IScanningQueryComponent Wrap(Func<IScanningQueryComponent, IScanningQueryComponent> wrapper)
-            => new EnclosingComponent(wrapper.Invoke(this));
+            => new EnclosingComponent(wrapper.Invoke(this), GetEnumerable());
 
         public IQueryComponentVisitor Accept(IQueryComponentVisitor visitor)
             => visitor;
+
+        private IEnumerable<TypeInfo> GetEnumerable()
+            => _providers
+                .Select(p => p.Assembly)
+                .SelectMany(a => a.DefinedTypes);
     }
 }
