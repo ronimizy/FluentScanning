@@ -28,6 +28,12 @@ namespace FluentScanning
         public static IScanningQuery AreSatisfyingCustomFilter(this IScanningQuery query, ITypeFilter filter)
             => query.AreSatisfyingCustomFilter(filter.Match);
 
+        public static IScanningQuery AreNotAssignableTo(this IScanningQuery query, Type type)
+            => query.AreSatisfyingCustomFilter(t => !type.IsAssignableFrom(t));
+
+        public static IScanningQuery AreNotAssignableTo<T>(this IScanningQuery query)
+            => query.AreNotAssignableTo(typeof(T));
+
         public static IScanningQuery AreNotInterfaces(this IScanningQuery query)
             => query.AreSatisfyingCustomFilter(t => !t.IsInterface);
 
