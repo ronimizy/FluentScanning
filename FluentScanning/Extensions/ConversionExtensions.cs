@@ -9,8 +9,9 @@ namespace FluentScanning
     public static class ConversionExtensions
     {
         /// <summary>
-        /// Converts given TypeInfo's to types that they are describing
+        /// Not really necessary as TypeInfo is derived from Type and assigning it to Type variable will give you the Type that it describing.
         /// </summary>
+        /// <returns>IEnumerable of Types that given TypeInfos describing.</returns>
         public static IEnumerable<Type> AsTypes(this IEnumerable<TypeInfo> typeInfos)
             => typeInfos.Select(t => t.AsType());
     }
