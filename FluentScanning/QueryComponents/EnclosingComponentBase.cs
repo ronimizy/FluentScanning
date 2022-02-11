@@ -25,8 +25,7 @@ namespace FluentScanning.QueryComponents
             var visitor = new QueryComponentVisitor();
             _component.Accept(visitor);
 
-            var enumerable = ToEnumerable(_component.GetEnumerator());
-            return visitor.BuildQuery(enumerable).GetEnumerator();
+            return visitor.BuildQuery(_component).GetEnumerator();
         }
 
         IEnumerator IEnumerable.GetEnumerator()
@@ -42,18 +41,5 @@ namespace FluentScanning.QueryComponents
             => _component.Accept(visitor);
 
         protected abstract IScanningQueryComponent Wrap(IScanningQueryComponent component);
-
-        private static IEnumerable<TypeInfo> ToEnumerable(IEnumerator<TypeInfo> enumerator)
-        {
-            while (enumerator.MoveNext() && enumerator.Current is object)
-            {
-                yield return enumerator.Current;
-            }
-
-            if (enumerator is object)
-            {
-                enumerator.Dispose();
-            }
-        }
     }
 }

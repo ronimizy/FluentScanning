@@ -17,7 +17,8 @@ namespace FluentScanning.QueryComponents
         public IEnumerator<TypeInfo> GetEnumerator()
             => _component.GetEnumerator();
 
-        IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
+        IEnumerator IEnumerable.GetEnumerator()
+            => GetEnumerator();
 
         public virtual IScanningQueryComponent Wrap(Func<IScanningQueryComponent, IScanningQueryComponent> wrapper)
             => wrapper.Invoke(this);
