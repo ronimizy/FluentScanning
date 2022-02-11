@@ -1,34 +1,16 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Reflection;
-
 namespace FluentScanning.QueryComponents
 {
-    public abstract class ComponentBase : IScanningQueryComponent
+    public abstract class ComponentBase<TVisitor> : IScanningQueryComponent
+        where TVisitor : IQueryComponentVisitor
     {
-        private readonly IScanningQueryComponent _component;
-
-        protected ComponentBase(IScanningQueryComponent component)
+        public void Accept(IQueryComponentVisitor visitor)
         {
-            _component = component;
+            if (visitor is TVisitor typedVisitor)
+            {
+                Accept(typedVisitor);
+            }
         }
 
-        public IEnumerator<TypeInfo> GetEnumerator()
-            => _component.GetEnumerator();
-
-        IEnumerator IEnumerable.GetEnumerator()
-            => GetEnumerator();
-
-        public virtual IScanningQueryComponent Wrap(Func<IScanningQueryComponent, IScanningQueryComponent> wrapper)
-            => wrapper.Invoke(this);
-
-        public IQueryComponentVisitor Accept(IQueryComponentVisitor visitor)
-        {
-            AcceptLocal(visitor);
-            return _component.Accept(visitor);
-        }
-
-        protected abstract void AcceptLocal(IQueryComponentVisitor visitor);
+        protected abstract void Accept(TVisitor visitor);
     }
 }
