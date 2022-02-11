@@ -16,7 +16,7 @@ public class ServiceCollectionAssemblyScannerTests
 
         using (var scanner = collection.UseAssemblyScanner(typeof(IAssemblyMarker)))
         {
-            scanner.EnqueueTypeAdditionWhich()
+            scanner.EnqueueAdditionOfTypesThat()
                 .AreRegisteredAs<Base>()
                 .WithSingletonLifetime()
                 .MustBeAssignableTo<Base>()

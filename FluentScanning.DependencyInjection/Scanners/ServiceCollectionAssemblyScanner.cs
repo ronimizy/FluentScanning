@@ -38,7 +38,7 @@ namespace FluentScanning.DependencyInjection
             }
         }
 
-        public RegistrationTypeSelector EnqueueTypeAdditionWhich()
+        public RegistrationTypeSelector EnqueueAdditionOfTypesThat()
             => new RegistrationTypeSelector(this, GetEnumerable());
 
         internal void Apply(ServiceCollectionScanningQuery applyingQuery)
