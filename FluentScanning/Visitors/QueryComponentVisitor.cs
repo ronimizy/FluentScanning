@@ -6,7 +6,7 @@ using FluentScanning.QueryComponents;
 
 namespace FluentScanning.Visitors
 {
-    public class QueryComponentVisitor :
+    internal class QueryComponentVisitor :
         IMustBeQueryComponentVisitor,
         IMayBeAssignableQueryComponentVisitor,
         ITypeFilterQueryComponentVisitor
