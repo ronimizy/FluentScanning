@@ -43,7 +43,8 @@ As IScanningQuery support query branching, only "dangling" queries are added to 
 ```cs
 IServiceCollection collection = new ServiceCollection();
 
-// Obtaining scanner from IServiceCollection, defining scanning scope just like with AssemblyScanner's constructor.
+// Obtaining scanner from IServiceCollection, defining scanning scope 
+// just like with AssemblyScanner's constructor.
 using (var scanner = collection.UseAssemblyScanner(typeof(IAssemblyMarker)))
 {
     // Query result would not be added to IServiceCollection.
