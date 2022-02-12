@@ -46,13 +46,13 @@ var collection = new ServiceCollection();
 using (var scanner = collection.UseAssemblyScanner(typeof(IAssemblyMarker)))
 {
     // Query result would not be added to IServiceCollection.
-    var base = scanner.EnqueueAdditionOfTypesThat()
+    var baseQuery = scanner.EnqueueAdditionOfTypesThat()
         .AreRegisteredAs<Base>()
         .WithSingletonLifetime()
         .MustBeAssignableTo<Base>();
         
     // Queries results will be added to IServiceCollection.
-    base.AreNotAbstractClasses();
-    base.AreValueTypes();
+    baseQuery.AreNotAbstractClasses();
+    baseQuery.AreValueTypes();
 }
 ```
