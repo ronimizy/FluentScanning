@@ -20,5 +20,11 @@ namespace FluentScanning
 
         public static implicit operator AssemblyProvider(Assembly assembly)
             => new AssemblyProvider(() => assembly);
+
+        public static implicit operator AssemblyProvider(Func<Type> func)
+            => new AssemblyProvider(() => func.Invoke().Assembly);
+
+        public static implicit operator AssemblyProvider(Func<Assembly> func)
+            => new AssemblyProvider(func);
     }
 }
