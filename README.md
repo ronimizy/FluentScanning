@@ -20,8 +20,8 @@ var collectionQuery = baseQuery
     // You can use MayBeAssignableTo extension to define a disjuction of types 
     // that are conform the query.
     // In this example query will return types that are assignable to 
-    // (Base & IReadOnlyCollection<>) || (Base & ICollection).
-    .MayBeAssignableTo<IReadOnlyCollection<>>()
+    // (Base & IReadOnlyCollection<object>) || (Base & ICollection).
+    .MayBeAssignableTo<IReadOnlyCollection<object>>()
     .MayBeAssignableTo<ICollection>();
 
 var notAbstractQuerty = baseQuery
