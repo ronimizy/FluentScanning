@@ -1,3 +1,5 @@
+using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using FluentScanning.DependencyInjection;
 using FluentScanning.Tests.Types;
@@ -16,14 +18,17 @@ public class ServiceCollectionAssemblyScannerTests
 
         using (var scanner = collection.UseAssemblyScanner(typeof(IAssemblyMarker)))
         {
-            scanner.EnqueueAdditionOfTypesThat()
+            var baseQuery = scanner.EnqueueAdditionOfTypesThat()
                 .AreRegisteredAs<Base>()
                 .WithSingletonLifetime()
                 .MustBeAssignableTo<Base>()
                 .AreNotAbstractClasses();
+
+            baseQuery.MustBeAssignableTo<ICollection>();
+            baseQuery.MustBeAssignableTo<IReadOnlyCollection<object>>();
         }
 
-        var expected = new[] { typeof(A), typeof(B) };
+        var expected = new[] { typeof(C), typeof(D) };
         var found = collection.Select(d => d.ImplementationType);
 
         CollectionAssert.AreEquivalent(expected, found);
