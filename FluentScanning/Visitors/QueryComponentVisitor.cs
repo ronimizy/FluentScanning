@@ -36,6 +36,8 @@ namespace FluentScanning.Visitors
                 enumerable = enumerable.Where(t => _matchers.All(m => m.Invoke(t)));
             }
 
+            enumerable = enumerable.Where(t => t.GetCustomAttribute<AssemblyScanningIgnoreAttribute>() is null);
+
             return enumerable;
         }
 
