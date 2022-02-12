@@ -41,8 +41,9 @@ The use of IDisposable pattern implemented to make scanning to IServiceCollectio
 As IScanningQuery support query branching, only "dangling" queries are added to IServiceCollection, but not the branching roots.
 
 ```cs
-var collection = new ServiceCollection();
+IServiceCollection collection = new ServiceCollection();
 
+// Obtaining scanner from IServiceCollection, defining scanning scope just like with AssemblyScanner's constructor.
 using (var scanner = collection.UseAssemblyScanner(typeof(IAssemblyMarker)))
 {
     // Query result would not be added to IServiceCollection.
