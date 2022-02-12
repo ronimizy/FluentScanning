@@ -90,7 +90,7 @@ namespace FluentScanning.DependencyInjection
         }
 
         private IEnumerable<TypeInfo> GetEnumerable()
-            => _providers.Select(p => p.Assembly).SelectMany(a => a.DefinedTypes);
+            => _providers.Select(p => p.Assembly).Distinct().SelectMany(a => a.DefinedTypes);
     }
 
     public static class ServiceCollectionExtensions

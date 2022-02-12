@@ -19,6 +19,6 @@ namespace FluentScanning
             => new TypeSourceScanningQuery(GetEnumerable());
 
         private IEnumerable<TypeInfo> GetEnumerable()
-            => _providers.Select(p => p.Assembly).SelectMany(a => a.DefinedTypes);
+            => _providers.Select(p => p.Assembly).Distinct().SelectMany(a => a.DefinedTypes);
     }
 }
