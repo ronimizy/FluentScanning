@@ -1,4 +1,4 @@
-# FluentScanning
+# FluentScanning ![Nuget](https://img.shields.io/nuget/v/FluentScanning?style=flat-square)
 
 A package that provides abstraction and common functionality for performing assembly scanning.
 
@@ -32,7 +32,7 @@ var notAbstractQuerty = baseQuery
     .ToArray();
 ```
 
-# FluentScanning.DependencyInjection
+# FluentScanning.DependencyInjection ![Nuget](https://img.shields.io/nuget/v/FluentScanning.DependencyInjection?style=flat-square)
 
 A package that provide functionality for adding assembly scanning results to Microsoft.Extensions.DependencyInjection.IServiceCollection
 
