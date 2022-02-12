@@ -4,8 +4,8 @@ A package that provides abstraction and common functionality for performing asse
 
 ```cs
 // Creating an instance of assembly scanning with defined scanning scope.
-// AsseblyScanner's constructor accepts Type, Assembly, () => Type, () => Assembly as params arguments
-// and assemblies extracted from them form a scanning scope (assemblies are distinct).
+// AsseblyScanner's constructor accepts Type, Assembly, () => Type, () => Assembly as params.
+// Assemblies extracted from them form a scanning scope (assemblies are distinct).
 var scanner = new AssemblyScanner(typeof(IAssemblyMarker), typeof(object));
 
 // Start a scanning query
@@ -13,11 +13,14 @@ var baseQuery = scanner.ScanForTypesThat()
     // Use extension methods to build up a query.
     .MustBeAssignableTo<Base>();
     
-// All queries are immutable and they support query branching, it means that you can save a mid-query and build up queries in 
+// All queries are immutable and they support query branching.
+// It means that you can save a mid-query and build up queries in 
 // different directions just like you would do with IEnumerable / IQueriable
 var collectionQuery = baseQuery
-    // You can use MayBeAssignableTo extension to define a disjuction of types that are conform the query
-    // In this example query will return types that are assignable to (Base & IReadOnlyCollection<>) || (Base & ICollection).
+    // You can use MayBeAssignableTo extension to define a disjuction of types 
+    // that are conform the query.
+    // In this example query will return types that are assignable to 
+    // (Base & IReadOnlyCollection<>) || (Base & ICollection).
     .MayBeAssignableTo<IReadOnlyCollection<>>()
     .MayBeAssignableTo<ICollection>();
 
