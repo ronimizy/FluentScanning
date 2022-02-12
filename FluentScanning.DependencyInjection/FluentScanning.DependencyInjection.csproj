@@ -3,6 +3,12 @@
     <PropertyGroup>
         <TargetFramework>netstandard2.1</TargetFramework>
         <Nullable>enable</Nullable>
+        <Title>FluentScanning.DependencyInjection</Title>
+        <Authors>ronimizy</Authors>
+        <Description>An AssemblyScanner implementation for Mircosoft.Extensions.DependentyInjection's IServiceCollection with fluent interface.</Description>
+        <RepositoryUrl>https://github.com/ronimizy/FluentScanning</RepositoryUrl>
+        <RepositoryType>github</RepositoryType>
+        <PackageTags>assembly-scanning; dependency-injection; fluent-interface;</PackageTags>
     </PropertyGroup>
 
     <ItemGroup>

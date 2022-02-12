@@ -3,6 +3,12 @@
     <PropertyGroup>
         <TargetFramework>netstandard2.1</TargetFramework>
         <Nullable>enable</Nullable>
+        <Title>FluentScanning</Title>
+        <Authors>ronimizy</Authors>
+        <Description>An AssemblyScanner implementation with fluent interface.</Description>
+        <RepositoryUrl>https://github.com/ronimizy/FluentScanning</RepositoryUrl>
+        <RepositoryType>github</RepositoryType>
+        <PackageTags>assembly-scanning; fluent-interface;</PackageTags>
     </PropertyGroup>
 
 </Project>
