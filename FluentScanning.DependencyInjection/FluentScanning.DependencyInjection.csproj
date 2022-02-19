@@ -9,6 +9,8 @@
         <RepositoryUrl>https://github.com/ronimizy/FluentScanning</RepositoryUrl>
         <RepositoryType>github</RepositoryType>
         <PackageTags>assembly-scanning; dependency-injection; fluent-interface;</PackageTags>
+        <PackageVersion>1.0.1</PackageVersion>
+        <PackageReleaseNotes>Downgraded DI.Abstrcations version</PackageReleaseNotes>
     </PropertyGroup>
 
     <ItemGroup>
