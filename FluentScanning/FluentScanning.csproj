@@ -9,6 +9,8 @@
         <RepositoryUrl>https://github.com/ronimizy/FluentScanning</RepositoryUrl>
         <RepositoryType>github</RepositoryType>
         <PackageTags>assembly-scanning; fluent-interface;</PackageTags>
+        <PackageVersion>1.0.1</PackageVersion>
+        <PackageReleaseNotes>Added documentation</PackageReleaseNotes>
     </PropertyGroup>
 
 </Project>
