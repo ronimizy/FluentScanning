@@ -6,33 +6,28 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace FluentScanning.DependencyInjection.Queries
 {
-    public class ServiceCollectionTypeSourceScanningQuery : IScanningQuery
+    internal class ServiceCollectionTypeSourceScanningQuery : IScanningQuery
     {
-        private readonly ServiceCollectionAssemblyScanner _scanner;
-        private readonly IEnumerable<TypeInfo> _enumerable;
-        private readonly Type _registrationType;
-        private readonly ServiceLifetime _serviceLifetime;
+        private readonly IServiceCollectionScanningQueryRoot _root;
+        private readonly IRegistrationTypeSelector _typeSelector;
+        private readonly IServiceLifetimeSelector _lifetimeSelector;
 
         public ServiceCollectionTypeSourceScanningQuery(
-            ServiceCollectionAssemblyScanner scanner,
-            IEnumerable<TypeInfo> enumerable,
-            Type registrationType,
-            ServiceLifetime serviceLifetime)
+            IRegistrationTypeSelector typeSelector,
+            IServiceLifetimeSelector lifetimeSelector)
         {
-            _scanner = scanner;
-            _enumerable = enumerable;
-            _registrationType = registrationType;
-            _serviceLifetime = serviceLifetime;
+            _root = typeSelector.Root;
+            _typeSelector = typeSelector;
+            _lifetimeSelector = lifetimeSelector;
         }
 
         public IEnumerator<TypeInfo> GetEnumerator()
-            => _enumerable.GetEnumerator();
+            => _root.GetEnumerator();
 
         IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 
         public IScanningQuery WithComponent(IScanningQueryComponent component)
-            => new ServiceCollectionScanningQuery(
-                _scanner, _enumerable, _registrationType, _serviceLifetime, component, this);
+            => new ServiceCollectionScanningQuery(component, this, _root, _typeSelector, _lifetimeSelector);
 
         public void Accept(IQueryComponentVisitor visitor) { }
     }

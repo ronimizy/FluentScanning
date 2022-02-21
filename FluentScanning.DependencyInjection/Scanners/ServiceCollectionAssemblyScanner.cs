@@ -38,8 +38,8 @@ namespace FluentScanning.DependencyInjection
             }
         }
 
-        public RegistrationTypeSelector EnqueueAdditionOfTypesThat()
-            => new RegistrationTypeSelector(this, GetEnumerable());
+        public IServiceCollectionScanningQueryRoot EnqueueAdditionOfTypesThat()
+            => new ServiceCollectionScanningQueryRoot(this, GetEnumerable());
 
         internal void Apply(ServiceCollectionScanningQuery applyingQuery)
         {
@@ -70,7 +70,10 @@ namespace FluentScanning.DependencyInjection
             var descriptors = _appliedQueries
                 .Select(q => q.GetResult())
                 .SelectMany(r => r.TypeInfos,
-                    (result, info) => new ServiceDescriptor(result.RegistrationType, info, result.ServiceLifetime));
+                    (result, info) => new ServiceDescriptor(
+                        result.RegistrationTypeSelector.GetRegistrationType(info),
+                        info,
+                        result.ServiceLifetimeSelector.GetLifetime(info)));
 
             _collection.Add(descriptors);
             _appliedQueries.Clear();

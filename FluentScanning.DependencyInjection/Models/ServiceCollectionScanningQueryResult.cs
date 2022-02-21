@@ -8,15 +8,17 @@ namespace FluentScanning.DependencyInjection.Models
     internal struct ServiceCollectionScanningQueryResult
     {
         public ServiceCollectionScanningQueryResult(
-            IEnumerable<TypeInfo> typeInfos, Type registrationType, ServiceLifetime serviceLifetime)
+            IEnumerable<TypeInfo> typeInfos, 
+            IRegistrationTypeSelector registrationTypeSelector,
+            IServiceLifetimeSelector serviceLifetimeSelector)
         {
             TypeInfos = typeInfos;
-            RegistrationType = registrationType;
-            ServiceLifetime = serviceLifetime;
+            RegistrationTypeSelector = registrationTypeSelector;
+            ServiceLifetimeSelector = serviceLifetimeSelector;
         }
 
         internal IEnumerable<TypeInfo> TypeInfos { get; }
-        internal Type RegistrationType { get; }
-        internal ServiceLifetime ServiceLifetime { get; }
+        internal IRegistrationTypeSelector RegistrationTypeSelector { get; }
+        internal IServiceLifetimeSelector ServiceLifetimeSelector { get; }
     }
 }
