@@ -13,7 +13,6 @@ namespace FluentScanning.DependencyInjection.Queries
         private readonly IRegistrationTypeSelector _typeSelector;
         private readonly IServiceLifetimeSelector _lifetimeSelector;
 
-
         public ServiceCollectionScanningQuery(
             IScanningQueryComponent component,
             IScanningQuery previousQuery,
