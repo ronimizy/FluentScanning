@@ -27,11 +27,7 @@ namespace FluentScanning.Visitors
                 enumerable = enumerable.Where(t => _eitherAssignableTypes.Any(tt => tt.IsAssignableFrom(t)));
             }
 
-            if (!_mustBeAssignableTypes.Any() && !_eitherAssignableTypes.Any())
-            {
-                enumerable = Array.Empty<TypeInfo>();
-            }
-            else if (_matchers.Any())
+            if (_matchers.Any())
             {
                 enumerable = enumerable.Where(t => _matchers.All(m => m.Invoke(t)));
             }
