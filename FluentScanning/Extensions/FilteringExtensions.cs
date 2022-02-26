@@ -24,7 +24,7 @@ namespace FluentScanning
         /// Filters out types that are not marked with specified attribute.
         /// </summary>
         public static IScanningQuery HaveAttribute(this IScanningQuery query, Type attributeType)
-            => query.AreSatisfyingCustomFilter(t => t.GetCustomAttribute(attributeType) is { });
+            => query.AreSatisfyingCustomFilter(t => t.GetCustomAttribute(attributeType) is object);
 
         /// <inheritdoc cref="HaveAttribute"/>
         public static IScanningQuery HaveAttribute<TAttribute>(this IScanningQuery query) where TAttribute : Attribute
@@ -34,7 +34,7 @@ namespace FluentScanning
         /// Filters out types that are marked with specified attribute.
         /// </summary>
         public static IScanningQuery DoesNotHaveAttribute(this IScanningQuery query, Type attributeType)
-            => query.AreSatisfyingCustomFilter(t => t.GetCustomAttribute(attributeType) is { });
+            => query.AreSatisfyingCustomFilter(t => t.GetCustomAttribute(attributeType) is object);
 
         /// <inheritdoc cref="DoesNotHaveAttribute"/>
         public static IScanningQuery DoesNotHaveAttribute<TAttribute>(this IScanningQuery query)
