@@ -1,8 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFramework>netstandard2.1</TargetFramework>
-        <Nullable>enable</Nullable>
+        <TargetFramework>netstandard2.0</TargetFramework>
     </PropertyGroup>
     
     <PropertyGroup>
@@ -16,7 +15,7 @@
         <RepositoryUrl>https://github.com/ronimizy/FluentScanning</RepositoryUrl>
         <RepositoryType>github</RepositoryType>
         <PackageTags>assembly-scanning; fluent-interface;</PackageTags>
-        <PackageVersion>1.0.2</PackageVersion>
-        <PackageReleaseNotes>Queries without "AssignableTo" constraints return all types.</PackageReleaseNotes>
+        <PackageVersion>1.1.0</PackageVersion>
+        <PackageReleaseNotes>Lowered netstandard version.</PackageReleaseNotes>
     </PropertyGroup>
 </Project>
