@@ -13,10 +13,11 @@
         <Authors>ronimizy</Authors>
         <Description>An AssemblyScanner implementation for Mircosoft.Extensions.DependentyInjection's IServiceCollection with fluent interface.</Description>
         <RepositoryUrl>https://github.com/ronimizy/FluentScanning</RepositoryUrl>
+        <PackageProjectUrl>https://github.com/ronimizy/FluentScanning</PackageProjectUrl>
         <RepositoryType>github</RepositoryType>
         <PackageTags>assembly-scanning; dependency-injection; fluent-interface;</PackageTags>
-        <PackageVersion>1.1.0</PackageVersion>
-        <PackageReleaseNotes>Lowered netstandard version.</PackageReleaseNotes>
+        <PackageVersion>1.1.1</PackageVersion>
+        <PackageReleaseNotes>Added project url.</PackageReleaseNotes>
     </PropertyGroup>
 
     <ItemGroup>
