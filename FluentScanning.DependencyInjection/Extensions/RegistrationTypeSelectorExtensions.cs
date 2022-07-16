@@ -28,5 +28,12 @@ namespace FluentScanning.DependencyInjection
         public static IRegistrationTypeSelector WouldBeRegisteredAsSelfType(
             this IServiceCollectionScanningQueryRoot root)
             => new CustomizableRegistrationTypeSelector(root, t => t);
+
+        public static IRegistrationTypeSelector WouldBeRegisteredAsTypesConstructedFrom(
+            this IServiceCollectionScanningQueryRoot root,
+            Type unboundedGenericType)
+        {
+            return new ConstructedFromTypeSelector(root, unboundedGenericType);
+        }
     }
 }

@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Reflection;
 using FluentScanning.DependencyInjection.Queries;
 
@@ -9,6 +10,6 @@ namespace FluentScanning.DependencyInjection
     {
         IServiceCollectionScanningQueryRoot Root { get; }
 
-        Type GetRegistrationType(TypeInfo info);
+        IEnumerable<Type> GetRegistrationTypes(TypeInfo info);
     }
 }

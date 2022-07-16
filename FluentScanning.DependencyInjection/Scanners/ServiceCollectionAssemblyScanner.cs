@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using FluentScanning.DependencyInjection.Models;
 using FluentScanning.DependencyInjection.Queries;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
@@ -67,16 +68,23 @@ namespace FluentScanning.DependencyInjection
 
         private void DisposeUnlocked()
         {
-            var descriptors = _appliedQueries
+            IEnumerable<ServiceDescriptor> descriptors = _appliedQueries
                 .Select(q => q.GetResult())
-                .SelectMany(r => r.TypeInfos,
-                    (result, info) => new ServiceDescriptor(
-                        result.RegistrationTypeSelector.GetRegistrationType(info),
-                        info,
-                        result.ServiceLifetimeSelector.GetLifetime(info)));
+                .SelectMany(r => r.TypeInfos, GetServiceDescriptors)
+                .SelectMany(x => x);
 
             _collection.Add(descriptors);
             _appliedQueries.Clear();
+        }
+
+        private IEnumerable<ServiceDescriptor> GetServiceDescriptors(
+            ServiceCollectionScanningQueryResult result,
+            TypeInfo info)
+        {
+            IEnumerable<Type> types = result.RegistrationTypeSelector.GetRegistrationTypes(info);
+            var lifetime = result.ServiceLifetimeSelector.GetLifetime(info);
+            
+            return types.Select(t => new ServiceDescriptor(t, info, lifetime));
         }
 
         private void ApplyUnlocked(ServiceCollectionScanningQuery applyingQuery)
