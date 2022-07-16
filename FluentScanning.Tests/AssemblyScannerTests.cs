@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using System.Linq;
 using FluentScanning.Tests.Types;
 using NUnit.Framework;
@@ -14,11 +13,10 @@ public class AssemblyScannerTests
     {
         var scanner = new AssemblyScanner(typeof(IAssemblyMarker));
         var baseQuery = scanner.ScanForTypesThat()
-            .MustBeAssignableTo<Base>();
+            .AreAssignableTo<Base>();
 
         var collectionTypes = baseQuery
-            .MayBeAssignableTo<ICollection>()
-            .MayBeAssignableTo<IReadOnlyCollection<object>>()
+            .AreAssignableTo<ICollection>()
             .AsTypes()
             .ToArray();
         
@@ -27,7 +25,7 @@ public class AssemblyScannerTests
             .AsTypes()
             .ToArray();
 
-        var collectionTypesExpected = new[] { typeof(C), typeof(D) };
+        var collectionTypesExpected = new[] { typeof(C) };
         var notAbstractTypesExpected = new[] { typeof(A), typeof(B), typeof(C), typeof(D) };
 
         CollectionAssert.AreEquivalent(collectionTypesExpected, collectionTypes);
