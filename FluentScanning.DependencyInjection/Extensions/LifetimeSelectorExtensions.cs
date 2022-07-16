@@ -1,21 +1,36 @@
+using FluentScanning.DependencyInjection.QueryRegistrationTypeProviders;
 using Microsoft.Extensions.DependencyInjection;
 
-// ReSharper disable once CheckNamespace
-namespace FluentScanning.DependencyInjection
+namespace FluentScanning.DependencyInjection;
+
+public static class LifetimeSelectorExtensions
 {
-    public static class LifetimeSelectorExtensions
+    public static IScanningQuery WithLifetimeOf(
+        this IScanningQueryRegistrationTypeProvider typeProvider,
+        ServiceLifetime lifetime)
     {
-        public static IScanningQuery WithLifetimeOf(
-            this IRegistrationTypeSelector registrationTypeSelector, ServiceLifetime lifetime)
-            => new CustomizableServiceLifetimeSelector(registrationTypeSelector, _ => lifetime);
-        
-        public static IScanningQuery WithSingletonLifetime(this IRegistrationTypeSelector selector)
-            => selector.WithLifetimeOf(ServiceLifetime.Singleton);
+        var selector = new CustomizableServiceLifetimeSelector(_ => lifetime);
+        var typeProviderInternal = typeProvider.EnsureIs<IScanningQueryRegistrationTypeProviderInternal>();
 
-        public static IScanningQuery WithScopedLifetime(this IRegistrationTypeSelector selector)
-            => selector.WithLifetimeOf(ServiceLifetime.Scoped);
+        return new ServiceCollectionScanningQuery(
+            typeProviderInternal.Enumerable,
+            typeProviderInternal.Wrapper,
+            typeProviderInternal.RegistrationTypeSelector,
+            selector);
+    }
 
-        public static IScanningQuery WithTransientLifetime(this IRegistrationTypeSelector selector)
-            => selector.WithLifetimeOf(ServiceLifetime.Transient);
+    public static IScanningQuery WithSingletonLifetime(this IScanningQueryRegistrationTypeProvider selector)
+    {
+        return selector.WithLifetimeOf(ServiceLifetime.Singleton);
+    }
+
+    public static IScanningQuery WithScopedLifetime(this IScanningQueryRegistrationTypeProvider selector)
+    {
+        return selector.WithLifetimeOf(ServiceLifetime.Scoped);
+    }
+
+    public static IScanningQuery WithTransientLifetime(this IScanningQueryRegistrationTypeProvider selector)
+    {
+        return selector.WithLifetimeOf(ServiceLifetime.Transient);
     }
 }

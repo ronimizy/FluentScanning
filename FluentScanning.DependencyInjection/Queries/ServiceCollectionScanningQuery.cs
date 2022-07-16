@@ -1,42 +1,40 @@
-using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
-using FluentScanning.DependencyInjection.Models;
-using FluentScanning.Query;
-using Microsoft.Extensions.DependencyInjection;
+using FluentScanning.DependencyInjection.ServiceLifetimeSelectors;
+using FluentScanning.QueryWrappers;
 
-namespace FluentScanning.DependencyInjection.Queries
+namespace FluentScanning.DependencyInjection;
+
+internal class ServiceCollectionScanningQuery : IServiceCollectionScanningQueryInternal
 {
-    internal class ServiceCollectionScanningQuery : ScanningQueryBase
+    private readonly IEnumerable<TypeInfo> _enumerable;
+
+    public ServiceCollectionScanningQuery(
+        IEnumerable<TypeInfo> enumerable,
+        IScanningQueryWrapper wrapper,
+        IRegistrationTypeSelector registrationTypeSelector,
+        IServiceLifetimeSelector lifetimeSelector)
     {
-        private readonly IServiceCollectionScanningQueryRoot _root;
-        private readonly IRegistrationTypeSelector _typeSelector;
-        private readonly IServiceLifetimeSelector _lifetimeSelector;
+        _enumerable = enumerable;
+        Wrapper = wrapper;
+        RegistrationTypeSelector = registrationTypeSelector;
+        LifetimeSelector = lifetimeSelector;
+    }
 
-        public ServiceCollectionScanningQuery(
-            IScanningQueryComponent component,
-            IScanningQuery previousQuery,
-            IServiceCollectionScanningQueryRoot root,
-            IRegistrationTypeSelector typeSelector,
-            IServiceLifetimeSelector lifetimeSelector)
-            : base(component, previousQuery, root)
-        {
-            _root = root;
-            _typeSelector = typeSelector;
-            _lifetimeSelector = lifetimeSelector;
+    public IScanningQueryWrapper Wrapper { get; }
 
-            root.Scanner.Apply(this);
-        }
+    public IRegistrationTypeSelector RegistrationTypeSelector { get; }
 
-        protected override IScanningQuery WithComponent(
-            IScanningQueryComponent component, IScanningQuery previousQuery, IEnumerable<TypeInfo> enumerable)
-        {
-            _root.Scanner.Withdraw(this);
-            return new ServiceCollectionScanningQuery(
-                component, previousQuery, _root, _typeSelector, _lifetimeSelector);
-        }
+    public IServiceLifetimeSelector LifetimeSelector { get; }
 
-        internal ServiceCollectionScanningQueryResult GetResult()
-            => new ServiceCollectionScanningQueryResult(this, _typeSelector, _lifetimeSelector);
+    public IEnumerator<TypeInfo> GetEnumerator()
+    {
+        return _enumerable.GetEnumerator();
+    }
+
+    IEnumerator IEnumerable.GetEnumerator()
+    {
+        return GetEnumerator();
     }
 }

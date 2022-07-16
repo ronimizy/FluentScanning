@@ -1,6 +1,6 @@
 using FluentScanning.Exceptions;
 
-namespace FluentScanning.DependencyInjection.Exceptions;
+namespace FluentScanning.DependencyInjection;
 
 public class InconclusiveTypeResolutionException : FluentScanningException
 {
