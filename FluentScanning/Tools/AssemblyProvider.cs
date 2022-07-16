@@ -1,30 +1,36 @@
 using System;
 using System.Reflection;
 
-// ReSharper disable once CheckNamespace
-namespace FluentScanning
+namespace FluentScanning;
+
+public readonly struct AssemblyProvider
 {
-    public readonly struct AssemblyProvider
+    private readonly Lazy<Assembly> _lazyAssembly;
+
+    private AssemblyProvider(Func<Assembly> factory)
     {
-        private readonly Lazy<Assembly> _lazyAssembly;
+        _lazyAssembly = new Lazy<Assembly>(factory);
+    }
 
-        private AssemblyProvider(Func<Assembly> factory)
-        {
-            _lazyAssembly = new Lazy<Assembly>(factory);
-        }
+    public Assembly Assembly => _lazyAssembly.Value;
 
-        public Assembly Assembly => _lazyAssembly.Value;
+    public static implicit operator AssemblyProvider(Type type)
+    {
+        return new AssemblyProvider(() => type.Assembly);
+    }
 
-        public static implicit operator AssemblyProvider(Type type)
-            => new AssemblyProvider(() => type.Assembly);
+    public static implicit operator AssemblyProvider(Assembly assembly)
+    {
+        return new AssemblyProvider(() => assembly);
+    }
 
-        public static implicit operator AssemblyProvider(Assembly assembly)
-            => new AssemblyProvider(() => assembly);
+    public static implicit operator AssemblyProvider(Func<Type> func)
+    {
+        return new AssemblyProvider(() => func.Invoke().Assembly);
+    }
 
-        public static implicit operator AssemblyProvider(Func<Type> func)
-            => new AssemblyProvider(() => func.Invoke().Assembly);
-
-        public static implicit operator AssemblyProvider(Func<Assembly> func)
-            => new AssemblyProvider(func);
+    public static implicit operator AssemblyProvider(Func<Assembly> func)
+    {
+        return new AssemblyProvider(func);
     }
 }

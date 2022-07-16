@@ -1,9 +1,9 @@
-// ReSharper disable once CheckNamespace
+using System.Collections.Generic;
+using System.Reflection;
 
-namespace FluentScanning
+namespace FluentScanning.AssemblyScanningQueryComponents;
+
+internal interface IScanningQueryComponent
 {
-    public interface IScanningQueryComponent
-    {
-        void Accept(IQueryComponentVisitor visitor);
-    }
+    IEnumerable<TypeInfo> Filter(IEnumerable<TypeInfo> types);
 }

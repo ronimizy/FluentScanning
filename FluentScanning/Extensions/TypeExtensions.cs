@@ -4,7 +4,7 @@ using System.Reflection;
 
 namespace FluentScanning;
 
-public static class TypeExtensions
+internal static class TypeExtensions
 {
     public static bool IsConstructedFrom(this Type type, Type source)
     {
@@ -15,9 +15,12 @@ public static class TypeExtensions
         return genericType == source;
     }
 
-    public static bool IsBasedOn(this TypeInfo type, Type source)
+    public static bool IsBasedOnTypeConstructedFrom(this Type type, Type source)
     {
-        return source.IsAssignableFrom(type) ||
-               type.ImplementedInterfaces.Append(type.BaseType).Any(t => t?.IsConstructedFrom(source) ?? false);
+        if (type is not TypeInfo typeInfo)
+            return type.IsConstructedFrom(source);
+
+        return typeInfo.ImplementedInterfaces.Append(typeInfo.BaseType)
+            .Any(t => t?.IsConstructedFrom(source) ?? false);
     }
 }
