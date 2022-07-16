@@ -19,12 +19,12 @@ namespace FluentScanning.Visitors
         {
             if (_mustBeAssignableTypes.Any())
             {
-                enumerable = enumerable.Where(t => _mustBeAssignableTypes.All(tt => tt.IsAssignableFrom(t)));
+                enumerable = enumerable.Where(t => _mustBeAssignableTypes.All(t.IsBasedOn));
             }
 
             if (_eitherAssignableTypes.Any())
             {
-                enumerable = enumerable.Where(t => _eitherAssignableTypes.Any(tt => tt.IsAssignableFrom(t)));
+                enumerable = enumerable.Where(t => _eitherAssignableTypes.Any(t.IsBasedOn));
             }
 
             if (_matchers.Any())
