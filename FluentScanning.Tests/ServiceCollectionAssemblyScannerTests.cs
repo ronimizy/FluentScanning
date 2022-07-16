@@ -23,11 +23,11 @@ public class ServiceCollectionAssemblyScannerTests
             var baseQuery = scanner.EnqueueAdditionOfTypesThat()
                 .WouldBeRegisteredAs<Base>()
                 .WithSingletonLifetime()
-                .MustBeAssignableTo<Base>()
+                .AreAssignableTo<Base>()
                 .AreNotAbstractClasses();
 
-            baseQuery.MustBeAssignableTo<ICollection>();
-            baseQuery.MustBeAssignableTo<IReadOnlyCollection<object>>();
+            baseQuery.AreAssignableTo<ICollection>();
+            baseQuery.AreAssignableTo<IReadOnlyCollection<object>>();
         }
 
         var expected = new[] { typeof(C), typeof(D) };
@@ -46,7 +46,7 @@ public class ServiceCollectionAssemblyScannerTests
             scanner.EnqueueAdditionOfTypesThat()
                 .WouldBeRegisteredAsTypesConstructedFrom(typeof(IGeneric<>))
                 .WithSingletonLifetime()
-                .MustBeAssignableTo(typeof(IGeneric<>))
+                .AreBasedOnTypesConstructedFrom(typeof(IGeneric<>))
                 .AreNotAbstractClasses()
                 .AreNotInterfaces();
         }

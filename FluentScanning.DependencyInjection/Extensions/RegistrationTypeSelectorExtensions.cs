@@ -1,39 +1,55 @@
 using System;
-using FluentScanning.DependencyInjection.Queries;
+using FluentScanning.DependencyInjection.QueryRegistrationTypeProviders;
+using FluentScanning.DependencyInjection.QueryRoots;
 
 // ReSharper disable once CheckNamespace
-namespace FluentScanning.DependencyInjection
+namespace FluentScanning.DependencyInjection;
+
+public static class RegistrationTypeSelectorExtensions
 {
-    public static class RegistrationTypeSelectorExtensions
+    /// <summary>
+    ///     Declares a registration type selection protocol.
+    /// </summary>
+    /// <param name="type">Type that query results would be registered as.</param>
+    public static IScanningQueryRegistrationTypeProvider WouldBeRegisteredAs(
+        this IServiceCollectionScanningQueryRoot root,
+        Type type)
     {
-        /// <summary>
-        /// Declares a registration type selection protocol.
-        /// </summary>
-        /// <param name="type">Type that query results would be registered as.</param>
-        public static IRegistrationTypeSelector WouldBeRegisteredAs(
-            this IServiceCollectionScanningQueryRoot root, 
-            Type type)
-            => new CustomizableRegistrationTypeSelector(root, _ => type);
+        var selector = new CustomizableRegistrationTypeSelector(_ => type);
+        var rootInternal = root.EnsureIs<IServiceCollectionScanningQueryRootInternal>();
 
-        /// <summary>
-        /// Declares a registration type selection protocol.
-        /// </summary>
-        /// <typeparam name="T">Type that query results would be registered as.</typeparam>
-        public static IRegistrationTypeSelector WouldBeRegisteredAs<T>(this IServiceCollectionScanningQueryRoot root)
-            => root.WouldBeRegisteredAs(typeof(T));
+        return new ScanningQueryRegistrationTypeProvider(rootInternal.Wrapper, rootInternal.Enumerable, selector);
+    }
 
-        /// <summary>
-        /// Declares that query results would be registered in IService collection as the type they represent.
-        /// </summary>
-        public static IRegistrationTypeSelector WouldBeRegisteredAsSelfType(
-            this IServiceCollectionScanningQueryRoot root)
-            => new CustomizableRegistrationTypeSelector(root, t => t);
+    /// <summary>
+    ///     Declares a registration type selection protocol.
+    /// </summary>
+    /// <typeparam name="T">Type that query results would be registered as.</typeparam>
+    public static IScanningQueryRegistrationTypeProvider WouldBeRegisteredAs<T>(
+        this IServiceCollectionScanningQueryRoot rootOld)
+    {
+        return rootOld.WouldBeRegisteredAs(typeof(T));
+    }
 
-        public static IRegistrationTypeSelector WouldBeRegisteredAsTypesConstructedFrom(
-            this IServiceCollectionScanningQueryRoot root,
-            Type unboundedGenericType)
-        {
-            return new ConstructedFromTypeSelector(root, unboundedGenericType);
-        }
+    /// <summary>
+    ///     Declares that query results would be registered in IService collection as the type they represent.
+    /// </summary>
+    public static IScanningQueryRegistrationTypeProvider WouldBeRegisteredAsSelfType(
+        this IServiceCollectionScanningQueryRoot root)
+    {
+        var selector = new CustomizableRegistrationTypeSelector(t => t);
+        var rootInternal = root.EnsureIs<IServiceCollectionScanningQueryRootInternal>();
+
+        return new ScanningQueryRegistrationTypeProvider(rootInternal.Wrapper, rootInternal.Enumerable, selector);
+    }
+
+    public static IScanningQueryRegistrationTypeProvider WouldBeRegisteredAsTypesConstructedFrom(
+        this IServiceCollectionScanningQueryRoot root,
+        Type unboundedGenericType)
+    {
+        var selector = new ConstructedFromTypeSelector(unboundedGenericType);
+        var rootInternal = root.EnsureIs<IServiceCollectionScanningQueryRootInternal>();
+
+        return new ScanningQueryRegistrationTypeProvider(rootInternal.Wrapper, rootInternal.Enumerable, selector);
     }
 }

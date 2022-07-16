@@ -1,24 +1,31 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using FluentScanning.Query;
+using FluentScanning.AssemblyScanningQueryWrappers;
+using FluentScanning.Queries;
 
-// ReSharper disable once CheckNamespace
-namespace FluentScanning
+namespace FluentScanning;
+
+public class AssemblyScanner
 {
-    public class AssemblyScanner
+    private readonly IReadOnlyCollection<AssemblyProvider> _providers;
+
+    public AssemblyScanner(params AssemblyProvider[] providers)
     {
-        private readonly IReadOnlyCollection<AssemblyProvider> _providers;
+        _providers = providers.ToList();
+    }
 
-        public AssemblyScanner(params AssemblyProvider[] providers)
-        {
-            _providers = providers.ToList();
-        }
+    public IScanningQuery ScanForTypesThat()
+    {
+        return new ScanningQuery(GetEnumerable(), new ScanningQueryWrapper());
+    }
 
-        public IScanningQuery ScanForTypesThat()
-            => new TypeSourceScanningQuery(GetEnumerable());
-
-        private IEnumerable<TypeInfo> GetEnumerable()
-            => _providers.Select(p => p.Assembly).Distinct().SelectMany(a => a.DefinedTypes);
+    private IEnumerable<TypeInfo> GetEnumerable()
+    {
+        return _providers
+            .Select(p => p.Assembly)
+            .Distinct()
+            .SelectMany(a => a.DefinedTypes)
+            .Where(t => t.GetCustomAttribute<AssemblyScanningIgnoreAttribute>() is null);
     }
 }

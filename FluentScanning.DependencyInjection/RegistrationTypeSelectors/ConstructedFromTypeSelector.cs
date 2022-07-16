@@ -2,22 +2,17 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using FluentScanning.DependencyInjection.Exceptions;
-using FluentScanning.DependencyInjection.Queries;
 
 namespace FluentScanning.DependencyInjection;
 
-public class ConstructedFromTypeSelector : IRegistrationTypeSelector
+internal class ConstructedFromTypeSelector : IRegistrationTypeSelector
 {
     private readonly Type _type;
 
-    public ConstructedFromTypeSelector(IServiceCollectionScanningQueryRoot root, Type type)
+    public ConstructedFromTypeSelector(Type type)
     {
-        Root = root;
         _type = type;
     }
-
-    public IServiceCollectionScanningQueryRoot Root { get; }
 
     public IEnumerable<Type> GetRegistrationTypes(TypeInfo info)
     {

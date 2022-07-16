@@ -3,8 +3,9 @@
     <PropertyGroup>
         <TargetFramework>netstandard2.0</TargetFramework>
         <LangVersion>10</LangVersion>
+        <Nullable>enable</Nullable>
     </PropertyGroup>
-    
+
     <PropertyGroup>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     </PropertyGroup>
@@ -17,7 +18,14 @@
         <PackageProjectUrl>https://github.com/ronimizy/FluentScanning</PackageProjectUrl>
         <RepositoryType>github</RepositoryType>
         <PackageTags>assembly-scanning; fluent-interface;</PackageTags>
-        <PackageVersion>1.1.1</PackageVersion>
-        <PackageReleaseNotes>Added project url.</PackageReleaseNotes>
+        <PackageVersion>2.0.0</PackageVersion>
+        <PackageReleaseNotes>Added funtionality for working with types constructed from unbound generic types. Implementation rework.</PackageReleaseNotes>
     </PropertyGroup>
+
+    <ItemGroup>
+        <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleToAttribute">
+            <_Parameter1>$(AssemblyName).DependencyInjection</_Parameter1>
+        </AssemblyAttribute>
+    </ItemGroup>
+
 </Project>
