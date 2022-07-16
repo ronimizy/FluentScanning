@@ -19,8 +19,15 @@
         <RepositoryType>github</RepositoryType>
         <PackageTags>assembly-scanning; fluent-interface;</PackageTags>
         <PackageVersion>2.0.0</PackageVersion>
+        <PackageReadmeFile>README.md</PackageReadmeFile>
+        <PackageLicenseFile>LICENSE</PackageLicenseFile>
         <PackageReleaseNotes>Added funtionality for working with types constructed from unbound generic types. Implementation rework.</PackageReleaseNotes>
     </PropertyGroup>
+
+    <ItemGroup>
+        <None Include="..\README.md" Pack="true" PackagePath="\" />
+        <None Include="..\LICENSE" Pack="true" PackagePath="\" />
+    </ItemGroup>
 
     <ItemGroup>
         <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleToAttribute">
