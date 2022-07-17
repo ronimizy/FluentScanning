@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 
@@ -20,7 +21,15 @@ internal static class TypeExtensions
         if (type is not TypeInfo typeInfo)
             return type.IsConstructedFrom(source);
 
+        return typeInfo.GetFullHierarchy().Any(t => t.IsConstructedFrom(source));
+    }
+
+    public static IEnumerable<Type> GetFullHierarchy(this Type type)
+    {
+        if (type is not TypeInfo typeInfo)
+            return type.BaseType?.GetFullHierarchy().Append(type.BaseType) ?? Enumerable.Empty<TypeInfo>();
+
         return typeInfo.ImplementedInterfaces.Append(typeInfo.BaseType)
-            .Any(t => t?.IsConstructedFrom(source) ?? false);
+            .SelectMany(x => x?.GetFullHierarchy().Append(x) ?? Enumerable.Empty<Type>());
     }
 }
