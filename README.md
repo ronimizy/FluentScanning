@@ -78,3 +78,12 @@ using (var scanner = collection.UseAssemblyScanner(typeof(IAssemblyMarker)))
         .AreNotInterfaces();
 }
 ```
+
+For scanned assembly, containing types:
+```csharp
+public interface IGeneric<T> { }
+
+public class IntConcrete : IGeneric<int> { }
+```
+
+The preceding query will add a service of type `IGeneric<int>` with implementation type `IntConcrete`.
