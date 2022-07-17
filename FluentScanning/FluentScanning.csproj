@@ -18,10 +18,10 @@
         <PackageProjectUrl>https://github.com/ronimizy/FluentScanning</PackageProjectUrl>
         <RepositoryType>github</RepositoryType>
         <PackageTags>assembly-scanning; fluent-interface;</PackageTags>
-        <PackageVersion>2.0.0</PackageVersion>
+        <PackageVersion>2.0.1</PackageVersion>
         <PackageReadmeFile>README.md</PackageReadmeFile>
         <PackageLicenseFile>LICENSE</PackageLicenseFile>
-        <PackageReleaseNotes>Added funtionality for working with types constructed from unbound generic types. Implementation rework.</PackageReleaseNotes>
+        <PackageReleaseNotes>Expanded scanned hierarchy for constructed-from types.</PackageReleaseNotes>
     </PropertyGroup>
 
     <ItemGroup>

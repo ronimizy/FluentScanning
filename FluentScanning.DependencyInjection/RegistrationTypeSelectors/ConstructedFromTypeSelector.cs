@@ -17,8 +17,7 @@ internal class ConstructedFromTypeSelector : IRegistrationTypeSelector
     public IEnumerable<Type> GetRegistrationTypes(TypeInfo info)
     {
         Type[] baseTypeConstructedFrom = info
-            .ImplementedInterfaces
-            .Append(info.BaseType)
+            .GetFullHierarchy()
             .Where(t => t.IsConstructedFrom(_type))
             .ToArray();
 
